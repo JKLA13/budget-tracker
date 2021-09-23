@@ -1,10 +1,10 @@
 let db;
 // setup indexDB
-const request = indexedDB.open("budgetDB", 1);
+const request = indexedDB.open("budget", 1);
 
 request.onupgradeneeded = function (event) {
   let db = event.target.result;
-  db.createBudgetStore("budgetDB", { autoIncrement: true });
+  db.createObjectStore("budgetDB", { autoIncrement: true });
 };
 // check if online
 request.onsuccess = function (event) {
