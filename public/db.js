@@ -3,7 +3,7 @@ let db;
 const request = indexedDB.open("budgetDB", 1);
 
 request.onupgradeneeded = function (event) {
-  const db = event.target.result;
+  let db = event.target.result;
   db.createBudgetStore("budgetDB", { autoIncrement: true });
 };
 // check if online
@@ -25,14 +25,14 @@ request.onerror = function (event) {
 // create, access, and record to store with add method
 function saveRecord(record) {
   const transaction = db.transaction(["budgetDB"], "readwrite");
-  const store = transaction.budgetStore("budgetDB");
+  const store = transaction.objectStore("budgetDB");
 
   store.add(record);
 }
 // open transaction, access object store, and get all records from store
 function checkDB() {
   const transaction = db.transaction(["budgetDB"], "readwrite");
-  const store = transaction.budgetStore("budgetDB");
+  const store = transaction.objectStore("budgetDB");
   const getAll = store.getAll();
 
   getAll.onsuccess = function () {
@@ -57,4 +57,4 @@ function checkDB() {
 }
 
 // listen for app coming back online
-window.addEventListener("online", checkDatabase);
+window.addEventListener("online", checkDB);
